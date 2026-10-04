@@ -9,9 +9,10 @@ namespace My_ERP.Services
     {
         
 
-        public async Task<List<UserDTOResult>> GetUsersAsync(UserDTORequest filter)
+        public async Task<ResultDto> GetUsersAsync(UserDTORequest filter)
         {
-            List<UserDTOResult> results = new List<UserDTOResult>();
+            ResultDto result = new ResultDto();
+            List<UserDTOResult> userResults = new List<UserDTOResult>();
             ERPContext erpcontext = new ERPContext();
 
             IQueryable<User> query = erpcontext.Users.AsNoTracking();
@@ -45,7 +46,7 @@ namespace My_ERP.Services
 
             foreach (var item in data)
             {
-                results.Add(new UserDTOResult
+                userResults.Add(new UserDTOResult
                 {
                     UserId = item.UserId,
                     FirstName = item.FirstName,
@@ -58,8 +59,13 @@ namespace My_ERP.Services
                     CreatedAt = item.CreatedAt
                 });
             }
+            result.MetaData.Currentpage = filter.PageNo;
+            result.MetaData.ItemsPerPage = filter.ItemsPerPage;
+            result.MetaData.TotalItems = totalItems;
+            result.MetaData.TotalPages = (int)Math.Ceiling((double)totalItems / filter.ItemsPerPage);   
 
-            return results;
+            result.content = userResults.ToList();
+            return result;
         }
     }
 }

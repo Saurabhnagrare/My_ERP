@@ -5,11 +5,10 @@ namespace My_ERP.Agent
 {
     public class UsersAgent
     {
-        public async Task<IEnumerable<UserDTOResult>> GetUsersAsync(UserDTORequest request)
+        public async Task<ResultDto> GetUsersAsync(UserDTORequest request)
         {
             UsersService userservice = new UsersService();
             var users = await userservice.GetUsersAsync(request);
-
             return users;
         }
     }

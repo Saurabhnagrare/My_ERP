@@ -10,7 +10,7 @@ namespace My_ERP.Controllers
     public class UsersController : ControllerBase
     {
         [HttpPost]
-        public async Task<IEnumerable<UserDTOResult>> GetUsers(UserDTORequest request)
+        public async Task<ResultDto> GetUsers(UserDTORequest request)
         {
             UsersAgent usersagent = new UsersAgent();
 
